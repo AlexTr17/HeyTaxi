@@ -303,21 +303,41 @@ public class CarEngine : MonoBehaviour
 
 
         }
-        else if (currentSpeed < maxSpeed && !isBraking && gameObject.GetComponent<EnemySight>().state == State.chase && col == false)
+
+        else
+        {
+         
+            wheelFL.motorTorque = 0;
+            wheelFR.motorTorque = 0;
+            wheelRL.motorTorque = 0;
+            wheelRR.motorTorque = 0;
+        }
+         if (currentSpeed < maxSpeed && !isBraking && gameObject.GetComponent<EnemySight>().state == State.chase && col == false)
         {
             maxMotorTorque = 250f;
-            wheelFL.motorTorque = maxMotorTorque*15;
+            maxSpeed = 300f;
 
-            wheelFR.motorTorque = maxMotorTorque*15;
 
-            
+            wheelFL.motorTorque = maxMotorTorque * 10000;
+            wheelFR.motorTorque = maxMotorTorque * 10000;
+
+
+            //wheelRL.attachedRigidbody.AddForce(transform.up*10000 * wheelRL.attachedRigidbody.velocity.magnitude,ForceMode.Acceleration);
+            //wheelFL.attachedRigidbody.AddForce(transform.up*10000 * wheelRL.attachedRigidbody.velocity.magnitude, ForceMode.Acceleration);
+
+
+
+
 
         }
         else
         {
-            wheelFL.motorTorque = 0;
-            wheelFR.motorTorque = 0;
+            maxSpeed = 100f;
+            maxMotorTorque = 80f;
+            wheelFL.motorTorque = maxMotorTorque;
+            wheelFR.motorTorque = maxMotorTorque;
         }
+    
     }
 
     private void CheckWaypointDistance()
@@ -333,6 +353,7 @@ public class CarEngine : MonoBehaviour
                 currectNode++;
             }
         }
+       
 
     }
 
