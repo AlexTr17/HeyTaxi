@@ -12,7 +12,7 @@ public class CarEngine : MonoBehaviour
     public WheelCollider wheelRL;
     public WheelCollider wheelRR;
     public float maxMotorTorque = 80f;
-    public float maxBrakeTorque = 150f;
+    public float maxBrakeTorque = 10000f;
     public float currentSpeed;
     public float maxSpeed = 100f;
     public Vector3 centerOfMass;
@@ -61,7 +61,7 @@ public class CarEngine : MonoBehaviour
         ApplySteer();
         Sensors();
         //AddForce(new Vector3(0, 0, -10));
-        Drive(maxMotorTorque);
+        Drive();
 
 
         CheckWaypointDistance();
@@ -84,9 +84,9 @@ public class CarEngine : MonoBehaviour
     }
     IEnumerator Timer()
     {
-
+        isBraking = true;
         yield return new WaitForSeconds(4);
-
+        isBraking = false;
     }
 
     IEnumerator Back()
@@ -98,7 +98,7 @@ public class CarEngine : MonoBehaviour
             yield return new WaitForSeconds(1);
 
 
-            rgb.AddForce(0, 0, -1000);
+            rgb.AddForce(0, 0, -200);
             i++;
         }
 
@@ -124,12 +124,12 @@ public class CarEngine : MonoBehaviour
                 avoiding = true;
                 avoidMultiplier -= 1f;
             }
-            //else if (hit.collider.CompareTag("CarAi"))
-            //{
-            //    Debug.DrawLine(sensorStartPos, hit.point);
-            //    avoiding = true;
-            //    Braking();
-            //}
+            else if (hit.collider.CompareTag("CarAi"))
+            {
+                Debug.DrawLine(sensorStartPos, hit.point);
+                Debug.Log("CAR!");
+                isBraking = true;
+            }
         }
 
         //front right angle sensor
@@ -140,13 +140,7 @@ public class CarEngine : MonoBehaviour
                 Debug.DrawLine(sensorStartPos, hit.point);
                 avoiding = true;
                 avoidMultiplier -= 0.5f;
-            }
-            //else if (hit.collider.CompareTag("CarAi"))
-            //{
-            //    Debug.DrawLine(sensorStartPos, hit.point);
-            //    avoiding = true;
-            //   Braking();
-            //}
+            }         
         }
 
         //front left sensor
@@ -159,12 +153,7 @@ public class CarEngine : MonoBehaviour
                 avoiding = true;
                 avoidMultiplier += 1f;
             }
-            //else if (hit.collider.CompareTag("CarAi"))
-            //{
-            //    Debug.DrawLine(sensorStartPos, hit.point);
-            //    avoiding = true;
-            //    Braking();
-            //}
+        
         }
 
         //front left angle sensor
@@ -186,8 +175,7 @@ public class CarEngine : MonoBehaviour
         }
 
         //front center sensor
-        //if (avoidMultiplier == 0)
-        //{
+       
         if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
         {
             if (!hit.collider.CompareTag("Ground"))
@@ -203,17 +191,60 @@ public class CarEngine : MonoBehaviour
                     avoidMultiplier = 1;
                 }
             }
-            if (!hit.collider.CompareTag("Ground"))
+            //front center sensor
+            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, 18))
             {
-                Braking();
+                if (hit.collider.CompareTag("CarAi"))
+                {
+                    Debug.Log("CAR!");
+                    Debug.DrawLine(sensorStartPos, hit.point);
+                    StartCoroutine("Timer");
+                
+                }
+            }
+
+            //front left angle sensor
+            if (Physics.Raycast(sensorStartPos, Quaternion.AngleAxis(-frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength))
+            {
+                if (hit.collider.CompareTag("CarAi"))
+                {
+                    Debug.DrawLine(sensorStartPos, hit.point);
+                  
+                }
+
+               
+            }
+            //front right angle sensor
+            if (Physics.Raycast(sensorStartPos, Quaternion.AngleAxis(frontSensorAngle, transform.up) * transform.forward, out hit, sensorLength))
+            {
+                if (hit.collider.CompareTag("CarAi"))
+                {
+                    Debug.DrawLine(sensorStartPos, hit.point);
+
+                }
+            }
+          
+            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
+            {
+                if (hit.collider.CompareTag("CarAi"))
+                {
+                    Debug.DrawLine(sensorStartPos, hit.point);
+                    StartCoroutine("Timer");
+                }
+
+            }
+           
+            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
+            {
+                if (hit.collider.CompareTag("CarAi"))
+                {
+                    Debug.DrawLine(sensorStartPos, hit.point);
+                    StartCoroutine("Timer");
+                }
+
             }
         }
-        //else if (hit.collider.CompareTag("CarAi"))
-        //{
-        //    Debug.DrawLine(sensorStartPos, hit.point);
-        //    avoiding = true;
-        //    Braking();
-        //}
+     
         //}
 
         if (avoiding)
@@ -250,14 +281,14 @@ public class CarEngine : MonoBehaviour
         }
     }
 
-    private void Drive(float max)
+    private void Drive()
     {
         currentSpeed = 2 * Mathf.PI * wheelFL.radius * wheelFL.rpm * 60 / 1000;
 
         if (currentSpeed < maxSpeed && !isBraking && col == false)
-        {
-            wheelFL.motorTorque = max * 5;
-            wheelFR.motorTorque = max * 5;
+        {   maxMotorTorque = 80f;
+            wheelFL.motorTorque = maxMotorTorque;
+            wheelFR.motorTorque = maxMotorTorque;
 
             //wheelFR.transform.Rotate(-wheelFL.rpm / 60 * 360 * Time.deltaTime, 0f, 0f);
 
@@ -274,9 +305,12 @@ public class CarEngine : MonoBehaviour
         }
         else if (currentSpeed < maxSpeed && !isBraking && gameObject.GetComponent<EnemySight>().state == State.chase && col == false)
         {
-            wheelFL.motorTorque = max * 5;
+            maxMotorTorque = 250f;
+            wheelFL.motorTorque = maxMotorTorque*15;
 
-            wheelFR.motorTorque = max * 5;
+            wheelFR.motorTorque = maxMotorTorque*15;
+
+            
 
         }
         else
@@ -304,17 +338,23 @@ public class CarEngine : MonoBehaviour
 
     private void Braking()
     {
-        if (isBraking)
+        if (isBraking) 
         {
+
+            Debug.Log("Break");
             //carRenderer.material.mainTexture = textureBraking;
-            wheelRL.brakeTorque = maxBrakeTorque;
-            wheelRR.brakeTorque = maxBrakeTorque;
+            wheelRL.brakeTorque = maxBrakeTorque*5;
+            wheelRR.brakeTorque = maxBrakeTorque*5;
+            //wheelFL.brakeTorque = maxBrakeTorque*3;
+            //wheelFR.brakeTorque = maxBrakeTorque*3;
         }
         else
         {
             //carRenderer.material.mainTexture = textureNormal;
             wheelRL.brakeTorque = 0;
             wheelRR.brakeTorque = 0;
+            wheelFL.brakeTorque =0;
+            wheelFR.brakeTorque =0;
         }
     }
     private Vector3 SetTarget()
