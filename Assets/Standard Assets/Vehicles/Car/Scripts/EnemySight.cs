@@ -42,66 +42,77 @@ public class EnemySight : MonoBehaviour
         }
     }
 
-    //private void Update()
-    //{
-    //    if (gameObject.GetComponent<EnemySight>().state == State.patrol && gameObject.tag == "Police")
-    //    {
-    //        gameObject.GetComponent<CarAIControl>().SetTarget(waypoint.transform);
-    //    }
-    //    else if (gameObject.GetComponent<EnemySight>().state == State.suspicion)
-    //    { gameObject.GetComponent<CarAIControl>().SetTarget(Player.transform); ; }
-    //    else if (gameObject.GetComponent<EnemySight>().state == State.chase )
-    //    { gameObject.GetComponent<CarAIControl>().SetTarget(Player.transform); ; }
-    //}
+
     void FindVisibleTargets()
     {
         
         visibleTargets.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
-
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
+        if (targetsInViewRadius.Length!= 0)
         {
-            Transform target = targetsInViewRadius[i].transform;
-              
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
-
-            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            for (int i = 0; i < targetsInViewRadius.Length; i++)
             {
-                float dstToTarget = Vector3.Distance(transform.position, target.position);
 
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask) && state == State.patrol)
+                Transform target = targetsInViewRadius[i].transform;
+                if (target != null)
                 {
-                    visibleTargets.Add(target);
-                }
-                else if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask) && state == State.suspicion)
-                {
-                    visibleTargets.Add(target);
-                    state = State.chase;
-                   StopCoroutine("Patrol");
+                    Vector3 dirToTarget = (target.position - transform.position).normalized;
 
+                    if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+                    {
+                        float dstToTarget = Vector3.Distance(transform.position, target.position);
+
+                        if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask) && state == State.patrol)
+                        {
+                            visibleTargets.Add(target);
+                        }
+                        else if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask) && state == State.suspicion)
+                        {
+                            visibleTargets.Add(target);
+                            state = State.chase;
+                            StopCoroutine("Patrol");
+
+                        }
+
+                        else if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask) && state == State.chase)
+                        {
+
+                            visibleTargets.Add(target);
+
+                            state = State.chase;
+                            StopCoroutine("Suspicion");
+                        }
+
+                    }
+                     if (Vector3.Angle(transform.forward, dirToTarget) > viewAngle / 2 && state == State.chase)
+                    {
+
+                        StartCoroutine("Suspicion", 10f);
+                    }
+                     if (Vector3.Angle(transform.forward, dirToTarget) > viewAngle / 2 && state == State.suspicion)
+                    {
+
+                        StartCoroutine("Patrol", 3f);
+                    }
                 }
-               
-                else if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask) && state == State.chase)
+                else
                 {
-                  
-                    visibleTargets.Add(target);
-                    
-                    state = State.chase;
-                    StopCoroutine("Suspicion");
+                    Debug.Log("No Target");
                 }
-               
-            }  
-             else if (Vector3.Angle(transform.forward, dirToTarget) > viewAngle / 2 && state==State.chase )
-            {
-               
-                StartCoroutine("Suspicion",10f);
             }
-            else if (Vector3.Angle(transform.forward, dirToTarget) >viewAngle / 2 && state == State.suspicion)
+        }
+        else
+        {
+            if (state == State.chase)
             {
-              
-                StartCoroutine("Patrol",3f);
+                Debug.Log("StartSuspicion");
+                StartCoroutine("Suspicion", 5f);
             }
-     
+            if (state==State.suspicion)
+            {
+                Debug.Log("StartPatrol");
+                StartCoroutine("Patrol", 5f);
+            }
         }
        
     }
@@ -129,5 +140,14 @@ public class EnemySight : MonoBehaviour
             angleInDegrees += transform.eulerAngles.y;
         }
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other == Player.GetComponent<Collider>())
+        {
+            state = State.chase;
+        }
+        else
+        { }
     }
 }

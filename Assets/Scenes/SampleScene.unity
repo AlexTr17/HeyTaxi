@@ -5620,42 +5620,6 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &154973856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160482130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 459cec5b068041e44a60a6e3b6abb0eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  carController: {fileID: 154973862}
-  sensorLength: 3
-  frontSensorPosition: {x: 0, y: 0.2, z: 0.5}
-  frontSideSensorPosition: 0.2
-  frontSensorAngle: 30
-  avoiding: 0
---- !u!114 &154973858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160482092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 459cec5b068041e44a60a6e3b6abb0eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  carController: {fileID: 154973862}
-  sensorLength: 3
-  frontSensorPosition: {x: 0, y: 0.2, z: 0.5}
-  frontSideSensorPosition: 0.2
-  frontSensorAngle: 30
-  avoiding: 0
 --- !u!114 &154973860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5669,47 +5633,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheel: {fileID: 160482100}
---- !u!114 &154973862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160482094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea65b38d485c374caa584a03f1de571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CarDriveType: 2
-  m_WheelColliders:
-  - {fileID: 156205730}
-  - {fileID: 156205732}
-  - {fileID: 156205728}
-  - {fileID: 156205734}
-  m_WheelMeshes:
-  - {fileID: 160482100}
-  - {fileID: 160482102}
-  - {fileID: 160482088}
-  - {fileID: 160482090}
-  m_WheelEffects:
-  - {fileID: 154973872}
-  - {fileID: 154973878}
-  - {fileID: 154973876}
-  - {fileID: 154973866}
-  m_CentreOfMassOffset: {x: 0, y: 0, z: 0}
-  m_MaximumSteerAngle: 25
-  m_SteerHelper: 0.644
-  m_TractionControl: 1
-  m_FullTorqueOverAllWheels: 2500
-  m_ReverseTorque: 500
-  m_MaxHandbrakeTorque: 100000000
-  m_Downforce: 100
-  m_SpeedType: 0
-  m_Topspeed: 150
-  m_RevRangeBoundary: 1
-  m_SlipLimit: 0.3
-  m_BrakeTorque: 20000
 --- !u!114 &154973866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5737,19 +5660,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheel: {fileID: 160482102}
---- !u!114 &154973870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160482098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fffafd711dc1dbc478a49705cfe1ce3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  car: {fileID: 154973862}
 --- !u!114 &154973872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5764,18 +5674,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkidTrailPrefab: {fileID: 400000, guid: 4b6aa99de5d21424eab6ae279f31475b, type: 3}
   skidParticles: {fileID: 0}
---- !u!114 &154973874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160482094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96468c245ae8e0d4f8f1c7a7b8b0542e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &154973876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5804,30 +5702,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkidTrailPrefab: {fileID: 400000, guid: 4b6aa99de5d21424eab6ae279f31475b, type: 3}
   skidParticles: {fileID: 0}
---- !u!114 &154973884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160482094}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20fa55eb64c5cea4aa3c71ae19c434bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  engineSoundStyle: 1
-  lowAccelClip: {fileID: 8300000, guid: c4d8928c75c21af43998193f0f038429, type: 3}
-  lowDecelClip: {fileID: 8300000, guid: c4d8928c75c21af43998193f0f038429, type: 3}
-  highAccelClip: {fileID: 8300000, guid: 03e3bd08a6e70684dbe299a3e185fdd2, type: 3}
-  highDecelClip: {fileID: 8300000, guid: 03bf91d88fce91c41995d27de63cc967, type: 3}
-  pitchMultiplier: 0.8
-  lowPitchMin: 1
-  lowPitchMax: 5
-  highPitchMultiplier: 0.25
-  maxRolloffDistance: 500
-  dopplerLevel: 1
-  useDoppler: 1
 --- !u!146 &156205728
 WheelCollider:
   m_ObjectHideFlags: 0
@@ -6165,7 +6039,6 @@ GameObject:
   - component: {fileID: 161685312}
   - component: {fileID: 162684288}
   - component: {fileID: 154973868}
-  - component: {fileID: 154973858}
   m_Layer: 8
   m_Name: SkyCarMudGuardFrontLeft
   m_TagString: Untagged
@@ -6183,14 +6056,13 @@ GameObject:
   m_Component:
   - component: {fileID: 160915286}
   - component: {fileID: 163782692}
-  - component: {fileID: 154973862}
-  - component: {fileID: 154973874}
-  - component: {fileID: 154973884}
-  - component: {fileID: 160482095}
   - component: {fileID: 160482097}
+  - component: {fileID: 160482099}
+  - component: {fileID: 160482095}
+  - component: {fileID: 160482101}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6204,9 +6076,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 160482094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76061a0e184318a46b91c709f69d39a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b42a6ba3dd118046901c39ce482eb9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 160482099}
+  continuousForwardAndReverse: 1
+  throttleAndBrakeInput: 0
+  steerAxis: Horizontal
+  throttleAndBrakeAxis: Vertical
+  throttleAxis: Fire2
+  brakeAxis: Fire3
+  handbrakeAxis: Jump
+  resetVehicleKey: 13
 --- !u!1 &160482096
 GameObject:
   m_ObjectHideFlags: 0
@@ -6253,7 +6134,6 @@ GameObject:
   - component: {fileID: 160915282}
   - component: {fileID: 161685330}
   - component: {fileID: 162684306}
-  - component: {fileID: 154973870}
   m_Layer: 8
   m_Name: SkyCarBrakeLightsGlow
   m_TagString: Untagged
@@ -6261,6 +6141,96 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &160482099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160482094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d871a4f9350602b4b97a8c68bc69eedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheels:
+  - wheelCollider: {fileID: 156205730}
+    wheelTransform: {fileID: 160915314}
+    caliperTransform: {fileID: 0}
+    steer: 1
+    drive: 1
+    brake: 1
+    handbrake: 0
+  - wheelCollider: {fileID: 156205732}
+    wheelTransform: {fileID: 160915320}
+    caliperTransform: {fileID: 0}
+    steer: 1
+    drive: 1
+    brake: 1
+    handbrake: 0
+  - wheelCollider: {fileID: 156205728}
+    wheelTransform: {fileID: 160915312}
+    caliperTransform: {fileID: 0}
+    steer: 1
+    drive: 0
+    brake: 1
+    handbrake: 1
+  - wheelCollider: {fileID: 156205734}
+    wheelTransform: {fileID: 160915312}
+    caliperTransform: {fileID: 0}
+    steer: 1
+    drive: 0
+    brake: 1
+    handbrake: 1
+  centerOfMassMode: 1
+  centerOfMassPosition: 0.5
+  centerOfMassHeightOffset: 0
+  centerOfMassTransform: {fileID: 0}
+  maxSpeedForward: 100
+  maxSpeedReverse: 12
+  tireFriction: 1.35
+  rollingResistance: 0.05
+  antiRoll: 0.2
+  maxSteerAngle: 35
+  aeroDrag: 0
+  aeroDownforce: 1
+  driveBalance: 0.5
+  brakeBalance: 0.5
+  tireFrictionBalance: 0.5
+  aeroBalance: 0.5
+  handlingBias: 0.5
+  maxDriveForce: 2000
+  forceCurveShape: 0.5
+  maxDriveSlip: 4
+  driveForceToMaxSlip: 1000
+  maxBrakeForce: 3000
+  brakeForceToMaxSlip: 1000
+  brakeMode: 0
+  maxBrakeSlip: 2
+  maxBrakeRatio: 0.5
+  handbrakeMode: 0
+  maxHandbrakeSlip: 10
+  maxHandbrakeRatio: 1
+  tractionControl: 0
+  tractionControlRatio: 1
+  brakeAssist: 0
+  brakeAssistRatio: 1
+  steeringLimit: 0
+  steeringLimitRatio: 0.5
+  steeringAssist: 1
+  steeringAssistRatio: 0.5
+  steerInput: 0
+  throttleInput: 0
+  brakeInput: 0
+  handbrakeInput: 0
+  wheelUpdateRate: 0
+  wheelPositionMode: 0
+  sleepVelocity: 0.2
+  defaultGroundGrip: 1
+  defaultGroundDrag: 0
+  disallowRuntimeChanges: 0
+  disableSteerAngleCorrection: 0
+  showCollisionGizmos: 0
 --- !u!1 &160482100
 GameObject:
   m_ObjectHideFlags: 0
@@ -6279,6 +6249,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &160482101
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160482094}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &160482102
 GameObject:
   m_ObjectHideFlags: 0
@@ -6572,7 +6555,6 @@ GameObject:
   - component: {fileID: 160915322}
   - component: {fileID: 161685326}
   - component: {fileID: 162684302}
-  - component: {fileID: 154973856}
   - component: {fileID: 154973860}
   m_Layer: 8
   m_Name: SkyCarMudGuardFrontRight
@@ -10798,7 +10780,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.46, y: 1, z: 1.68}
+  m_Size: {x: 0.68, y: 1, z: 1.77}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &619184427
 MonoBehaviour:
@@ -10813,8 +10795,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  viewRadius: 199.63
-  viewAngle: 63
+  viewRadius: 27
+  viewAngle: 70
   count: 3
   targetMask:
     serializedVersion: 2
@@ -11285,7 +11267,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.37, y: 1, z: 1.71}
+  m_Size: {x: 0.68, y: 1, z: 1.77}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &663225275
 MonoBehaviour:
@@ -11300,7 +11282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  viewRadius: 199.63
+  viewRadius: 27
   viewAngle: 63
   count: 3
   targetMask:
@@ -19939,7 +19921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  viewRadius: 199.63
+  viewRadius: 27
   viewAngle: 63
   count: 3
   targetMask:
@@ -19962,7 +19944,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.46, y: 1, z: 1.53}
+  m_Size: {x: 0.68, y: 1, z: 1.77}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2068679112
 GameObject:
@@ -20706,7 +20688,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.46, y: 1, z: 1.53}
+  m_Size: {x: 0.68, y: 1, z: 1.77}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2131933300
 MonoBehaviour:
@@ -20721,7 +20703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  viewRadius: 199.63
+  viewRadius: 27
   viewAngle: 63
   count: 3
   targetMask:
