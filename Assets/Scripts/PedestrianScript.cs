@@ -17,7 +17,10 @@ public class PedestrianScript : MonoBehaviour
     public int currectNode = 0;
     public Vector3 centerOfMass;
     public int number = 0;
-
+    public Vector3 frontSensorPosition = new Vector3(0f, 0.2f, 0.5f);
+    public float frontSideSensorPosition = 0.2f;
+    private bool avoiding = false;
+    public float sensorLength = 3f;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,43 +53,60 @@ public class PedestrianScript : MonoBehaviour
         }
     }
         
-        // for(int i=0;i<pathTransforms.Length;i++)
-        //{
-           
-        //    if(Vector3.Distance(transform.position, pathTransforms[i].position)>Vector3.Distance(transform.position,pathTransforms[currectNode].position))
-        //    {
-        //        currectNode = number++;
-        //        number++;
-        //        if(currectNode>=pathTransforms.Length)
-        //        {
-        //            currectNode = 0;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        number++;
-        //    }
-
-        //}
-
-    
-
- 
-    // Update is called once per frame
+      
     private void Update()
-    {  if (currentState == PedState.walk)
+    {
 
+        if (currentState == PedState.walk)
         {
             CheckWaypointDistance();
             Walk();
+            Sensors();
         }
-        else
-        {
-          
-        }
+        if (currentState == PedState.crash)
+            return;
+     
      
     }
 
+    private void Sensors()
+    {
+        RaycastHit hit;
+        Vector3 sensorStartPos = transform.position;
+        sensorStartPos += transform.forward * frontSensorPosition.z;
+        sensorStartPos += transform.up * frontSensorPosition.y;
+      
+        avoiding = false;
+
+        //front right sensor
+        sensorStartPos += transform.right * frontSideSensorPosition;
+        if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                Debug.DrawLine(sensorStartPos, hit.point);
+         
+                if (Vector3.Distance(transform.position, hit.transform.position) < 7f)
+                { Dodge(); }
+            }
+         
+        }
+
+    }
+
+    private void Dodge()
+    {
+
+        Debug.Log("DODGE");
+        gameObject.AddComponent<Rigidbody>();
+        Rigidbody rgb = gameObject.GetComponent<Rigidbody>();
+        rgb.AddForce(transform.localPosition.x+7f*Time.deltaTime, transform.localPosition.y , transform.localPosition.z);
+     
+ 
+      
+
+        
+    }
     private void Walk()
     {
         //transform.Translate(Vector3.forward * Time.deltaTime, Space.Self); 
@@ -112,12 +132,19 @@ public class PedestrianScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag=="Player")
+        if(other.tag=="Player"&&currentState==PedState.walk)
         {
             currentState = PedState.crash;
             gameObject.AddComponent<Rigidbody>();
-            this.enabled = false;
+            StartCoroutine("DestroyRigidbody");
         }
+    }
+    IEnumerator DestroyRigidbody()
+    {
+        yield return new WaitForSeconds(5f);
+        
+        Destroy(gameObject.GetComponent<Rigidbody>());
+        gameObject.GetComponent<CapsuleCollider>().radius = 0.01f;
     }
 
 }

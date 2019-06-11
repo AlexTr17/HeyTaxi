@@ -11,6 +11,8 @@ public enum State
 }
 public class EnemySight : MonoBehaviour
 {
+
+    public GameObject policeDepartment;
     public State state;
     public float viewRadius;
     [Range(0, 360)]
@@ -24,8 +26,13 @@ public class EnemySight : MonoBehaviour
 
     public List<Transform> visibleTargets = new List<Transform>();
     GameObject Player;
+    private void Awake()
+    {
+        policeDepartment = gameObject.transform.parent.gameObject;
+    }
     void Start()
     {
+        
         state = State.suspicion;
         Player = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine("FindTargetsWithDelay", .2f);
@@ -43,7 +50,7 @@ public class EnemySight : MonoBehaviour
     }
 
 
-    void FindVisibleTargets()
+    void FindVisibleTargets()//поиска цели в круге
     {
         
         visibleTargets.Clear();
@@ -70,7 +77,9 @@ public class EnemySight : MonoBehaviour
                         {
                             visibleTargets.Add(target);
                             state = State.chase;
+                            
                             StopCoroutine("Patrol");
+                            StartSearch();
 
                         }
 
@@ -105,6 +114,7 @@ public class EnemySight : MonoBehaviour
         {
             if (state == State.chase)
             {
+                StartSearch();
                 Debug.Log("StartSuspicion");
                 StartCoroutine("Suspicion", 5f);
             }
@@ -150,4 +160,19 @@ public class EnemySight : MonoBehaviour
         else
         { }
     }
+
+    public void StartSearch()//начало глобального поиска
+    {
+        Debug.Log("StartGlobalSearch");
+
+        for (int i = 0; i < policeDepartment.transform.childCount; i++)
+        {
+            GameObject currentOfficer = policeDepartment.transform.GetChild(i).gameObject;
+            if (currentOfficer != gameObject&&currentOfficer.GetComponent<EnemySight>().state!=State.chase )
+            {
+                currentOfficer.GetComponent<EnemySight>().StopCoroutine("Patrol");
+                currentOfficer.GetComponent<EnemySight>().state =State.suspicion; }
+        }
+    }
+
 }

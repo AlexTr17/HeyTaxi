@@ -44,8 +44,8 @@ public class DamageManager : MonoBehaviour
         if(DamagePoints<=0 && Player.GetComponent<Rigidbody>().velocity.magnitude>1f)
         {
 
-            Player.GetComponent<CarUserControl>().enabled = false;
-            Player.GetComponent<CarController>().BrakePer();
+            //Player.GetComponent<CarUserControl>().enabled = false;
+            //Player.GetComponent<CarController>().BrakePer();
         }
     }
 }

@@ -59,8 +59,14 @@ public class CarEngine : MonoBehaviour
     {
 
         ApplySteer();
-        Sensors();
-        //AddForce(new Vector3(0, 0, -10));
+        if (gameObject.GetComponent<EnemySight>().state != State.chase)//чекаем есть погоня или нет
+        {
+            Sensors();
+        }
+        else
+        {
+            Chase();
+        }
         Drive();
 
 
@@ -164,14 +170,7 @@ public class CarEngine : MonoBehaviour
                 Debug.DrawLine(sensorStartPos, hit.point);
                 avoiding = true;
                 avoidMultiplier += 0.5f;
-            }
-
-            //else if (hit.collider.CompareTag("CarAi"))
-            //{
-            //    Debug.DrawLine(sensorStartPos, hit.point);
-            //    avoiding = true;
-            //    Braking();
-            //}
+            }         
         }
 
         //front center sensor
@@ -192,11 +191,11 @@ public class CarEngine : MonoBehaviour
                 }
             }
             //front center sensor
-            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, 18))
+            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, 18))//торможение при замечании другой машины
             {
                 if (hit.collider.CompareTag("CarAi"))
                 {
-                    Debug.Log("CAR!");
+
                     Debug.DrawLine(sensorStartPos, hit.point);
                     StartCoroutine("Timer");
                 
@@ -243,17 +242,131 @@ public class CarEngine : MonoBehaviour
                 }
 
             }
-        }
-     
-        //}
+              
 
-        if (avoiding)
+        }
+        if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength)&&gameObject.GetComponent<EnemySight>().state==State.chase)//отключение уклонения
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+
+                Debug.DrawLine(sensorStartPos, hit.point);
+          
+
+            }
+            sensorStartPos += transform.right * frontSideSensorPosition;
+            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength) && gameObject.GetComponent<EnemySight>().state == State.chase)
+            {
+                if (!hit.collider.CompareTag("Ground"))
+                {
+                    Debug.DrawLine(sensorStartPos, hit.point);
+                    avoiding = true;
+                    avoidMultiplier -= 1f;
+                }
+                else if (hit.collider.CompareTag("CarAi"))
+                {
+                    Debug.DrawLine(sensorStartPos, hit.point);
+                    Debug.Log("CAR!");
+                    isBraking = true;
+                }
+            }
+            sensorStartPos -= transform.right * frontSideSensorPosition * 2;
+            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength) && gameObject.GetComponent<EnemySight>().state == State.chase)
+            {
+                if (!hit.collider.CompareTag("Ground"))
+                {
+                    Debug.DrawLine(sensorStartPos, hit.point);
+                    avoiding = true;
+                    avoidMultiplier += 1f;
+                }
+
+            }
+        }
+        
+
+
+            //}
+
+            if (avoiding)
         {
             targerSteerAngle = maxSteerAngle * avoidMultiplier;
             wheelFL.steerAngle = maxSteerAngle * avoidMultiplier;
             wheelFR.steerAngle = maxSteerAngle * avoidMultiplier;
         }
 
+    }
+    void Avoid()
+    {
+
+    }
+    private void Chase()
+    {
+        RaycastHit hit;
+        Vector3 sensorStartPos = transform.position;
+        sensorStartPos += transform.forward * frontSensorPosition.z;
+        sensorStartPos += transform.up * frontSensorPosition.y;
+        float avoidMultiplier = 0;
+        avoiding = false;
+        if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))//(центральный луч)
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+
+                Debug.DrawLine(sensorStartPos, hit.point);
+
+
+            }
+            if (hit.collider.CompareTag("Obstacle"))
+            {
+
+                Debug.DrawLine(sensorStartPos, hit.point);
+
+
+            }
+
+
+        }
+        sensorStartPos += transform.right * frontSideSensorPosition;
+        if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))//(правый центральный луч)
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                Debug.DrawLine(sensorStartPos, hit.point);
+
+            }
+            if (hit.collider.CompareTag("Obstacle"))
+            {
+                Debug.DrawLine(sensorStartPos, hit.point);               
+                avoiding = true;
+                avoidMultiplier -= 1f;
+            }
+
+
+            sensorStartPos -= transform.right * frontSideSensorPosition * 2;
+
+            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))//(левый центральный луч)
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    Debug.DrawLine(sensorStartPos, hit.point);
+
+
+                }
+                if (hit.collider.CompareTag("Obstacle"))
+                {
+                    Debug.DrawLine(sensorStartPos, hit.point);
+                    avoiding = true;
+                    avoidMultiplier += 1f;
+                }
+
+            }
+            if (avoiding)
+            {
+                targerSteerAngle = maxSteerAngle * avoidMultiplier;
+                wheelFL.steerAngle = maxSteerAngle * avoidMultiplier;
+                wheelFR.steerAngle = maxSteerAngle * avoidMultiplier;
+            }
+        }
     }
 
     private void ApplySteer()
@@ -275,7 +388,7 @@ public class CarEngine : MonoBehaviour
 
         if (col == true)
         {
-            Debug.Log("OFFROTATE");
+
             wheelFL.steerAngle = 0f;
             wheelFR.steerAngle = 0f;
         }
@@ -362,16 +475,15 @@ public class CarEngine : MonoBehaviour
         if (isBraking) 
         {
 
-            Debug.Log("Break");
-            //carRenderer.material.mainTexture = textureBraking;
+
+    
             wheelRL.brakeTorque = maxBrakeTorque*5;
             wheelRR.brakeTorque = maxBrakeTorque*5;
-            //wheelFL.brakeTorque = maxBrakeTorque*3;
-            //wheelFR.brakeTorque = maxBrakeTorque*3;
+  
         }
         else
         {
-            //carRenderer.material.mainTexture = textureNormal;
+      
             wheelRL.brakeTorque = 0;
             wheelRR.brakeTorque = 0;
             wheelFL.brakeTorque =0;
