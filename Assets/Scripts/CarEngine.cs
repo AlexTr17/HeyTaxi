@@ -295,10 +295,7 @@ public class CarEngine : MonoBehaviour
         }
 
     }
-    void Avoid()
-    {
-
-    }
+  
     private void Chase()
     {
         RaycastHit hit;
@@ -323,8 +320,6 @@ public class CarEngine : MonoBehaviour
 
 
             }
-
-
         }
         sensorStartPos += transform.right * frontSideSensorPosition;
         if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))//(правый центральный луч)
@@ -334,39 +329,50 @@ public class CarEngine : MonoBehaviour
                 Debug.DrawLine(sensorStartPos, hit.point);
 
             }
+        }
+            sensorStartPos += transform.right * frontSideSensorPosition;
+        if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))//(правый центральный луч)
+        {
             if (hit.collider.CompareTag("Obstacle"))
             {
-                Debug.DrawLine(sensorStartPos, hit.point);               
+                Debug.DrawLine(sensorStartPos, hit.point);
                 avoiding = true;
                 avoidMultiplier -= 1f;
             }
-
+        }
 
             sensorStartPos -= transform.right * frontSideSensorPosition * 2;
 
-            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))//(левый центральный луч)
+        if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))//(левый центральный луч)
+        {
+            if (hit.collider.CompareTag("Player"))
             {
-                if (hit.collider.CompareTag("Player"))
-                {
-                    Debug.DrawLine(sensorStartPos, hit.point);
+                Debug.DrawLine(sensorStartPos, hit.point);
 
-
-                }
-                if (hit.collider.CompareTag("Obstacle"))
-                {
-                    Debug.DrawLine(sensorStartPos, hit.point);
-                    avoiding = true;
-                    avoidMultiplier += 1f;
-                }
 
             }
-            if (avoiding)
+        }
+        sensorStartPos -= transform.right * frontSideSensorPosition * 2;
+
+
+        if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))//(левый центральный луч)
+        { if (hit.collider.CompareTag("Obstacle"))
+            {
+                Debug.DrawLine(sensorStartPos, hit.point);
+                avoiding = true;
+                avoidMultiplier += 1f;
+            }
+        }
+
+
+
+        if (avoiding)
             {
                 targerSteerAngle = maxSteerAngle * avoidMultiplier;
                 wheelFL.steerAngle = maxSteerAngle * avoidMultiplier;
                 wheelFR.steerAngle = maxSteerAngle * avoidMultiplier;
             }
-        }
+        
     }
 
     private void ApplySteer()

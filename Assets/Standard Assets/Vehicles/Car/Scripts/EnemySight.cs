@@ -171,7 +171,8 @@ public class EnemySight : MonoBehaviour
             if (currentOfficer != gameObject&&currentOfficer.GetComponent<EnemySight>().state!=State.chase )
             {
                 currentOfficer.GetComponent<EnemySight>().StopCoroutine("Patrol");
-                currentOfficer.GetComponent<EnemySight>().state =State.suspicion; }
+                currentOfficer.GetComponent<EnemySight>().state =State.suspicion;
+            }
         }
     }
 
