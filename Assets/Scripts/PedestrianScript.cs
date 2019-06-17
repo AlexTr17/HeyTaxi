@@ -117,9 +117,9 @@ public class PedestrianScript : MonoBehaviour
     }
     private void CheckWaypointDistance()
     {
-        if (Vector3.Distance(transform.position, nodes[currectNode].position) < 5f)
+        if (Vector3.Distance(transform.position, nodes[currectNode].position) < 3f)
         {
-            if (currectNode == nodes.Count - 1)//если послдений элемент
+            if (currectNode == nodes.Count - 1)//если последний элемент
             {
                 currectNode = 0;
             }
@@ -127,18 +127,20 @@ public class PedestrianScript : MonoBehaviour
             {
                 currectNode++;
             }
-        }  
+        }
+        else { }
         
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if(other.tag=="Player"&&currentState==PedState.walk)
+            if(collision.collider.CompareTag("Player")&&currentState==PedState.walk)
         {
             currentState = PedState.crash;
             gameObject.AddComponent<Rigidbody>();
             StartCoroutine("DestroyRigidbody");
         }
     }
+  
     IEnumerator DestroyRigidbody()
     {
         yield return new WaitForSeconds(5f);

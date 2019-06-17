@@ -154,7 +154,12 @@ public class DamageSystem : MonoBehaviour
     public IEnumerator Rgb()
     {
         yield return new WaitForSeconds(0.1f);
-        extraPartsB[0].gameObject.AddComponent<Rigidbody>();
+        if (extraPartsB[0].GetComponent<Rigidbody>() == null)
+        { extraPartsB[0].gameObject.AddComponent<Rigidbody>(); }
+        else
+        {
+
+        }
     
     }
 }

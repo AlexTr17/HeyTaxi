@@ -33,7 +33,7 @@ public class EnemySight : MonoBehaviour
     void Start()
     {
         
-        state = State.suspicion;
+        state = State.patrol;
         Player = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine("FindTargetsWithDelay", .2f);
       

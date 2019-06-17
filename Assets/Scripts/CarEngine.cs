@@ -53,6 +53,21 @@ public class CarEngine : MonoBehaviour
             }
         }
         m_CurrentTorque = m_FullTorqueOverAllWheels - (m_TractionControl * m_FullTorqueOverAllWheels);
+        float lastDist = Vector3.Distance(transform.position, pathTransforms[0].position);
+        for (int i = 1; i < pathTransforms.Length; i++)
+        {
+            float thisDist = Vector3.Distance(transform.position, pathTransforms[i].transform.position);
+            if (lastDist > thisDist)
+            {
+                lastDist = thisDist;
+                currectNode = i--;
+                if (currectNode <= 0)
+                {
+                    currectNode = 0;
+                }
+            }
+
+        }
     }
 
     private void FixedUpdate()
